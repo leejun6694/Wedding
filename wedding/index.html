@@ -348,16 +348,18 @@
   const btn = document.getElementById('musicBtn');
   let playing = false;
 
-  // 첫 터치/클릭 시 자동 재생 (브라우저 정책)
-  document.addEventListener('click', function startMusic() {
-    if (!playing) {
-      bgm.play().then(() => {
-        playing = true;
-        btn.textContent = '🎵';
-      }).catch(() => {});
-    }
+  // 첫 터치/클릭 시 자동 재생
+  function startMusic() {
+    bgm.play().then(() => {
+      playing = true;
+      btn.textContent = '🎵';
+    }).catch(() => {});
+    document.removeEventListener('touchstart', startMusic);
     document.removeEventListener('click', startMusic);
-  }, { once: true });
+  }
+
+  document.addEventListener('touchstart', startMusic, { once: true });
+  document.addEventListener('click', startMusic, { once: true });
 
   function toggleMusic() {
     if (playing) {
