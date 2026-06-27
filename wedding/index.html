@@ -318,6 +318,60 @@
     }
   </style>
 </head>
+
+<!-- 배경음악 -->
+<audio id="bgm" src="./music/bgm.mp3" loop preload="auto"></audio>
+
+<!-- 음악 토글 버튼 -->
+<button id="musicBtn" onclick="toggleMusic()" style="
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(139,38,53,0.2);
+  background: rgba(255,255,255,0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+">🎵</button>
+
+<script>
+  const bgm = document.getElementById('bgm');
+  const btn = document.getElementById('musicBtn');
+  let playing = false;
+
+  // 첫 터치/클릭 시 자동 재생 (브라우저 정책)
+  document.addEventListener('click', function startMusic() {
+    if (!playing) {
+      bgm.play().then(() => {
+        playing = true;
+        btn.textContent = '🎵';
+      }).catch(() => {});
+    }
+    document.removeEventListener('click', startMusic);
+  }, { once: true });
+
+  function toggleMusic() {
+    if (playing) {
+      bgm.pause();
+      btn.textContent = '🔇';
+      playing = false;
+    } else {
+      bgm.play();
+      btn.textContent = '🎵';
+      playing = true;
+    }
+  }
+</script>
+
 <body>
 
 <!-- ① 메인 사진 -->
