@@ -1222,7 +1222,7 @@
     },
     {
       id: 'summer', label: '여름',
-      photos: [{ src: null }]
+      photos: [{ src: null, coming: true }]
     },
     {
       id: 'autumn', label: '가을',
@@ -1262,6 +1262,15 @@
         img.alt = `${tab.label} ${i + 1}`;
         img.loading = 'lazy';
         item.appendChild(img);
+      } else if (photo.coming) {
+        item.style.background = '#ffffff';
+        item.style.gridColumn = '1 / -1';
+        item.style.aspectRatio = '3 / 1';
+        item.style.cursor = 'default';
+        item.innerHTML = `<div class="photo-ph" style="flex-direction:column;gap:8px;">
+          <span style="font-size:20px;">☀️</span>
+          <span style="font-size:12px;color:#c4b8ac;font-family:'Noto Sans KR',sans-serif;letter-spacing:1px;">사진을 준비 중입니다</span>
+        </div>`;
       } else {
         item.innerHTML = `<div class="photo-ph">${tab.label}<br>${i + 1}</div>`;
       }
