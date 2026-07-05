@@ -10,19 +10,19 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --point:   #d27364;   /* 포인트 — 웜 테라코타 */
-      --point-light: #f9edeb;
-      --black:   #1e1a18;
-      --gray:    #9a9088;
-      --border:  #e6dfd7;
+      --point:   #e07b39;   /* 포인트 — 제주 감귤 주황 */
+      --point-light: #fef0e6;
+      --black:   #1a2018;
+      --gray:    #6e8070;
+      --border:  #d4e2d0;
 
-      /* 섹션 배경 — 밝은 쪽에서 따뜻한 쪽으로 */
-      --s1: #ffffff;        /* 인사말 */
-      --s2: #faf7f4;        /* 부모님 소개 */
-      --s3: #f5f0ea;        /* 날짜·장소 */
-      --s4: #efe8df;        /* 달력 */
-      --s5: #ffffff;        /* 갤러리 */
-      --s6: #fcfaf8;       /* 지도 */
+      /* 섹션 배경 — 초록 계열 */
+      --s1: #f8fbf7;        /* 인사말 — 연초록 */
+      --s2: #f0f6ee;        /* 부모님 소개 — 초록 */
+      --s3: #e6f0e4;        /* 날짜·달력 — 초록 */
+      --s4: #dceeda;        /* 달력 — 진한 초록 */
+      --s5: #ffffff;        /* 갤러리 — 흰색 */
+      --s6: #eef5ec;        /* 지도 — 초록 */
     }
 
     html { scroll-behavior: smooth; }
@@ -61,7 +61,7 @@
       width: 100%;
       aspect-ratio: 3 / 4;
       overflow: hidden;
-      background: #e8e0d8;
+      background: #c8dcc4;
     }
     .hero img {
       width: 100%;
@@ -100,7 +100,7 @@
     .wedding-message {
       font-family: 'Noto Serif KR', serif;
       font-size: 13.5px;
-      color: #877d75;
+      color: #5a7060;
       line-height: 2.15;
       text-align: center;
       letter-spacing: 0.3px;
@@ -335,7 +335,7 @@
       letter-spacing: 1px;
     }
     .cal-header.sun { color: #c97b6e; }
-    .cal-header.sat { color: #7a9abf; }
+    .cal-header.sat { color: #4a8abf; }
     .cal-day {
       text-align: center;
       font-size: 13px;
@@ -346,7 +346,7 @@
       line-height: 1;
     }
     .cal-day.sun { color: #c97b6e; }
-    .cal-day.sat { color: #7a9abf; }
+    .cal-day.sat { color: #4a8abf; }
     .cal-day.wedding-day {
       color: #fff !important;
       font-weight: 700;
@@ -832,7 +832,7 @@
 </head>
 
 <!-- 배경음악 -->
-<audio id="bgm" src="../music/bgm.mp3" loop preload="auto"></audio>
+<audio id="bgm" src="../music/reception.mp3" loop preload="auto"></audio>
 
 <!-- 음악 토글 버튼 -->
 <button id="musicBtn" onclick="toggleMusic()" style="
@@ -1290,7 +1290,7 @@
     },
   ];
 
-  const BG_COLORS = ['#ede6de','#e6ddd4','#ebe3da','#e8e0d6','#eae2d8','#e4dcd2'];
+  const BG_COLORS = ['#d4e8d0','#c8e0c4','#cce4c8','#d0e6cc','#cae2c6','#c6dec2'];
   let currentTabIdx = 0;
   let currentPhotoIdx = 0;
   function getTabData() { return TABS[currentTabIdx]; }
@@ -1310,7 +1310,7 @@
         img.loading = 'lazy';
         item.appendChild(img);
       } else if (photo.coming) {
-        item.style.background = '#ffffff';
+        item.style.background = '#f0f6ee';
         item.style.gridColumn = '1 / -1';
         item.style.aspectRatio = '3 / 1';
         item.style.cursor = 'default';
