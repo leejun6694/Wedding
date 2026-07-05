@@ -1406,6 +1406,20 @@
 
   renderGrid();
 
+  // 모든 탭 사진 미리 로드
+  function preloadAllImages() {
+    TABS.forEach(tab => {
+      tab.photos.forEach(photo => {
+        if (photo.src) {
+          const img = new Image();
+          img.src = photo.src;
+        }
+      });
+    });
+  }
+
+  preloadAllImages();
+
   function openContactModal() {
     document.getElementById('contactModal').classList.add('open');
     document.body.style.overflow = 'hidden';
