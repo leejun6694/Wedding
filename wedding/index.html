@@ -129,27 +129,39 @@
     .family-row {
       display: flex;
       align-items: baseline;
-      justify-content: center;
-      gap: 6px;
-      flex-wrap: nowrap;
+      gap: 0;
     }
     .parents {
       font-family: 'Noto Sans KR', sans-serif;
       font-size: 13px;
       color: var(--gray);
       letter-spacing: 0.3px;
+      margin-right: 4px;
+    }
+    .particle {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13px;
+      color: #bbb;
+      width: 12px;
+      text-align: center;
+      margin-right: 2px;
     }
     .relation {
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 12px;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13px;
       color: #bbb;
+      width: 32px;
+      text-align: right;
+      margin-right: 12px;
     }
     .person-name {
       font-family: 'Noto Serif KR', serif;
       font-size: 15px;
       font-weight: 600;
       color: var(--black);
-      letter-spacing: 2px;
+      width: 58px;
+      text-align: justify;
+      text-align-last: justify;
     }
 
     /* 축하 연락하기 버튼 */
@@ -889,13 +901,15 @@
   <div class="family-names">
     <div class="family-row">
       <span class="parents">이순호 · 김매화</span>
-      <span class="relation">의 아들,</span>
-      <span class="person-name">이 준</span>
+      <span class="particle">의</span>
+      <span class="relation">아들,</span>
+      <span class="person-name">이   준</span>
     </div>
     <div class="family-row">
       <span class="parents">김승준 · 조혜경</span>
-      <span class="relation">의 딸,</span>
-      <span class="person-name">김수빈</span>
+      <span class="particle">의</span>
+      <span class="relation">딸,</span>
+      <span class="person-name">김 수 빈</span>
     </div>
   </div>
   <button class="contact-btn" onclick="openContactModal()">💌 축하 연락하기</button>
