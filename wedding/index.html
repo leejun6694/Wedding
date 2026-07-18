@@ -1182,6 +1182,118 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+
+    /* ━━━ 인트로 오버레이 ━━━ */
+    .intro-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      background: rgba(20, 18, 16, 0.82);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 32px;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    .intro-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .intro-content {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      animation: introFadeIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes introFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .intro-eyebrow {
+      font-size: 10px;
+      letter-spacing: 5px;
+      color: rgba(255, 255, 255, 0.5);
+      text-transform: uppercase;
+      font-family: 'Noto Sans KR', sans-serif;
+      margin-bottom: 16px;
+    }
+
+    .intro-names {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 34px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 3px;
+    }
+
+    .intro-names span {
+      color: var(--point);
+    }
+
+    .intro-divider {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3), transparent);
+      margin: 20px auto;
+    }
+
+    .intro-message {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 2.2;
+      letter-spacing: 0.5px;
+      margin-bottom: 20px;
+    }
+
+    .intro-date {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 3px;
+      margin-bottom: 36px;
+    }
+
+    /* 커서 깜빡임 */
+    .intro-message::after {
+      content: '|';
+      color: var(--point);
+      animation: blink 0.8s step-end infinite;
+    }
+
+    .intro-message.done::after {
+      animation: none;
+      opacity: 1;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 
@@ -1227,6 +1339,16 @@
 </script>
 
 <body>
+
+  <!-- 인트로 오버레이 -->
+  <div class="intro-overlay" id="introOverlay">
+    <div class="intro-content">
+      <p class="intro-eyebrow">Wedding Invitation</p>
+      <p class="intro-names">준 <span>&</span> 수빈</p>
+      <div class="intro-divider"></div>
+      <p class="intro-message" id="introMessage"></p>
+    </div>
+  </div>
 
   <!-- ① 메인 사진 -->
   <section class="hero">
@@ -1870,6 +1992,85 @@
     });
 
     fadeEls.forEach(el => observer.observe(el));
+
+    /* 인트로 오버레이 */
+    document.body.style.overflow = 'hidden';
+
+    const introLines = [
+      '소소한 하루를 함께 나누며',
+      '사랑으로 물들었습니다'
+    ];
+
+    function closeIntro() {
+      const overlay = document.getElementById('introOverlay');
+      overlay.classList.add('hidden');
+      document.body.style.overflow = '';
+
+      const bgmEl = document.getElementById('bgm');
+      const btnEl = document.getElementById('musicBtn');
+      bgmEl.currentTime = 0;
+      bgmEl.play().then(() => {
+        playing = true;
+        btnEl.textContent = '🎵';
+      }).catch(() => { });
+    }
+
+    (function typeIntro() {
+      const el = document.getElementById('introMessage');
+      let lineIdx = 0;
+      let charIdx = 0;
+      let text = '';
+
+      function typeNext() {
+        if (lineIdx >= introLines.length) {
+          /* 타이핑 완료 */
+          el.classList.add('done');
+          setTimeout(closeIntro, 1200);
+          return;
+        }
+
+        const line = introLines[lineIdx];
+
+        if (charIdx < line.length) {
+          /* 글자 하나씩 타이핑 */
+          text += line[charIdx];
+          el.innerHTML = text.replace(/\n/g, '<br>');
+          charIdx++;
+          setTimeout(typeNext, 80);
+        } else {
+          lineIdx++;
+          charIdx = 0;
+          /* 마지막 줄이면 줄바꿈 없이 완료 */
+          if (lineIdx < introLines.length) {
+            text += '\n';
+            el.innerHTML = text.replace(/\n/g, '<br>');
+          }
+          const delay = line === '' ? 100 : 400;
+          setTimeout(typeNext, delay);
+        }
+      }
+
+      /* 1초 후 시작 — 페이지 첫 터치/클릭으로 음악 준비 */
+      document.addEventListener('touchstart', function initAudio() {
+        const bgmEl = document.getElementById('bgm');
+        bgmEl.play().then(() => {
+          bgmEl.pause();
+          bgmEl.currentTime = 0;
+        }).catch(() => { });
+        document.removeEventListener('touchstart', initAudio);
+      }, { once: true });
+
+      document.addEventListener('click', function initAudio() {
+        const bgmEl = document.getElementById('bgm');
+        bgmEl.play().then(() => {
+          bgmEl.pause();
+          bgmEl.currentTime = 0;
+        }).catch(() => { });
+        document.removeEventListener('click', initAudio);
+      }, { once: true });
+
+      setTimeout(typeNext, 1000);
+    })();
   </script>
 </body>
 
