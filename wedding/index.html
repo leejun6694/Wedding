@@ -1323,18 +1323,24 @@
   const bgm = document.getElementById('bgm');
   const btn = document.getElementById('musicBtn');
   let playing = false;
-
-  function startMusic() {
-    bgm.play().then(() => { playing = true; btn.textContent = '🎵'; }).catch(() => { });
-    document.removeEventListener('touchstart', startMusic);
-    document.removeEventListener('click', startMusic);
-  }
-  document.addEventListener('touchstart', startMusic, { once: true });
-  document.addEventListener('click', startMusic, { once: true });
+  let audioUnlocked = false;
+  let userMuted = false; // 사용자가 직접 멈춘 경우
 
   function toggleMusic() {
-    if (playing) { bgm.pause(); btn.textContent = '🔈'; playing = false; }
-    else { bgm.play(); btn.textContent = '🎵'; playing = true; }
+    btn.style.animation = '';
+    btn.style.borderColor = '';
+    btn.style.background = '';
+    if (playing) {
+      bgm.pause();
+      btn.textContent = '🔈';
+      playing = false;
+      userMuted = true;  // 사용자가 직접 멈춤
+    } else {
+      bgm.play();
+      btn.textContent = '🎵';
+      playing = true;
+      userMuted = false; // 사용자가 직접 재생
+    }
   }
 </script>
 
@@ -2001,17 +2007,34 @@
       '사랑으로 물들었습니다'
     ];
 
+    /* 터치 시 소리 없이 오디오 컨텍스트만 활성화 */
+    function unlockAudio() {
+      if (!audioUnlocked) {
+        bgm.muted = true;
+        bgm.play().then(() => {
+          bgm.pause();
+          bgm.muted = false;
+          bgm.currentTime = 0;
+          audioUnlocked = true;
+        }).catch(() => { });
+      }
+    }
+
+    const introEl = document.getElementById('introOverlay');
+    introEl.addEventListener('touchstart', unlockAudio, { passive: true, once: true });
+    introEl.addEventListener('click', unlockAudio, { once: true });
+    introEl.addEventListener('mousemove', unlockAudio, { once: true });
+
     function closeIntro() {
       const overlay = document.getElementById('introOverlay');
       overlay.classList.add('hidden');
       document.body.style.overflow = '';
 
-      const bgmEl = document.getElementById('bgm');
-      const btnEl = document.getElementById('musicBtn');
-      bgmEl.currentTime = 0;
-      bgmEl.play().then(() => {
+      bgm.muted = false;
+      bgm.currentTime = 0;
+      bgm.play().then(() => {
         playing = true;
-        btnEl.textContent = '🎵';
+        btn.textContent = '🎵';
       }).catch(() => { });
     }
 
@@ -2023,7 +2046,6 @@
 
       function typeNext() {
         if (lineIdx >= introLines.length) {
-          /* 타이핑 완료 */
           el.classList.add('done');
           setTimeout(closeIntro, 1200);
           return;
@@ -2032,7 +2054,6 @@
         const line = introLines[lineIdx];
 
         if (charIdx < line.length) {
-          /* 글자 하나씩 타이핑 */
           text += line[charIdx];
           el.innerHTML = text.replace(/\n/g, '<br>');
           charIdx++;
@@ -2040,7 +2061,6 @@
         } else {
           lineIdx++;
           charIdx = 0;
-          /* 마지막 줄이면 줄바꿈 없이 완료 */
           if (lineIdx < introLines.length) {
             text += '\n';
             el.innerHTML = text.replace(/\n/g, '<br>');
@@ -2050,27 +2070,24 @@
         }
       }
 
-      /* 1초 후 시작 — 페이지 첫 터치/클릭으로 음악 준비 */
-      document.addEventListener('touchstart', function initAudio() {
-        const bgmEl = document.getElementById('bgm');
-        bgmEl.play().then(() => {
-          bgmEl.pause();
-          bgmEl.currentTime = 0;
-        }).catch(() => { });
-        document.removeEventListener('touchstart', initAudio);
-      }, { once: true });
-
-      document.addEventListener('click', function initAudio() {
-        const bgmEl = document.getElementById('bgm');
-        bgmEl.play().then(() => {
-          bgmEl.pause();
-          bgmEl.currentTime = 0;
-        }).catch(() => { });
-        document.removeEventListener('click', initAudio);
-      }, { once: true });
-
       setTimeout(typeNext, 1000);
     })();
+
+    /* 스크롤 시 자동 재생 — 사용자가 직접 멈추지 않은 경우에만 */
+    window.addEventListener('scroll', function startOnScroll() {
+      if (!playing && !userMuted) {
+        bgm.play().then(() => {
+          playing = true;
+          btn.textContent = '🎵';
+          btn.style.animation = '';
+          btn.style.borderColor = '';
+          btn.style.background = '';
+          window.removeEventListener('scroll', startOnScroll);
+        }).catch(() => { });
+      } else {
+        window.removeEventListener('scroll', startOnScroll);
+      }
+    }, { passive: true });
   </script>
 </body>
 
