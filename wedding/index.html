@@ -1563,13 +1563,13 @@
       <p class="map-venue">셀렙앤어셈</p>
       <p class="map-addr">서울 강남구 언주로 711</p>
       <div class="map-wrap">
-        <div id="daumRoughmapContainer1782569167127" class="root_daum_roughmap root_daum_roughmap_landing"></div>
+        <div id="daumRoughmapContainer1784387489350" class="root_daum_roughmap root_daum_roughmap_landing"></div>
         <script charset="UTF-8" class="daum_roughmap_loader_script"
           src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
         <script charset="UTF-8">
           new daum.roughmap.Lander({
-            "timestamp": "1782569167127",
-            "key": "q9qjnnixj73",
+            "timestamp": "1784387489350",
+            "key": "rfwny79iam3",
             "mapWidth": "640",
             "mapHeight": "360"
           }).render();
@@ -2037,9 +2037,10 @@
 
     function closeIntro() {
       document.removeEventListener('touchmove', preventScroll);
+
       const overlay = document.getElementById('introOverlay');
       overlay.classList.add('hidden');
-      ddocument.body.style.overflow = '';
+      document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
 
       bgm.muted = false;
@@ -2047,7 +2048,11 @@
       bgm.play().then(() => {
         playing = true;
         btn.textContent = '🎵';
-      }).catch(() => { });
+      }).catch(() => {
+        btn.style.animation = 'musicPulse 1.2s ease-in-out infinite';
+        btn.style.borderColor = 'rgba(210,115,100,0.6)';
+        btn.style.background = 'rgba(255,255,255,0.8)';
+      });
     }
 
     (function typeIntro() {

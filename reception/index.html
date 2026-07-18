@@ -2069,7 +2069,11 @@
       bgm.play().then(() => {
         playing = true;
         btn.textContent = '🎵';
-      }).catch(() => { });
+      }).catch(() => {
+        btn.style.animation = 'musicPulse 1.2s ease-in-out infinite';
+        btn.style.borderColor = 'rgba(210,115,100,0.6)';
+        btn.style.background = 'rgba(255,255,255,0.8)';
+      });
     }
 
     (function typeIntro() {
