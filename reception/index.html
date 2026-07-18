@@ -1238,6 +1238,7 @@
 
     /* ━━━ 인트로 오버레이 ━━━ */
     .intro-overlay {
+      touch-action: none;
       position: fixed;
       inset: 0;
       z-index: 9000;
@@ -2023,6 +2024,12 @@
 
     fadeEls.forEach(el => observer.observe(el));
 
+    /* 모바일 스크롤 차단 */
+    function preventScroll(e) {
+      e.preventDefault();
+    }
+    document.addEventListener('touchmove', preventScroll, { passive: false });
+
     /* 인트로 오버레이 */
     document.body.style.overflow = 'hidden';
 
@@ -2050,6 +2057,8 @@
     introEl.addEventListener('mousemove', unlockAudio, { once: true });
 
     function closeIntro() {
+      document.removeEventListener('touchmove', preventScroll);
+
       const overlay = document.getElementById('introOverlay');
       overlay.classList.add('hidden');
       document.body.style.overflow = '';
