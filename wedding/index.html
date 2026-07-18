@@ -1560,24 +1560,24 @@
     <div class="fade-content">
       <p class="sec-label">Location</p>
       <p class="sec-title">찾아오시는 길</p>
-      <p class="map-venue">셀렙앤어셈</p>
-      <p class="map-addr">서울 강남구 언주로 711</p>
+      <p class="map-venue">아젠토피오레</p>
+      <p class="map-addr">제주시 서광로 112</p>
       <div class="map-wrap">
-        <div id="daumRoughmapContainer1784387489350" class="root_daum_roughmap root_daum_roughmap_landing"></div>
+        <div id="daumRoughmapContainer1784388148496" class="root_daum_roughmap root_daum_roughmap_landing"></div>
         <script charset="UTF-8" class="daum_roughmap_loader_script"
           src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
         <script charset="UTF-8">
           new daum.roughmap.Lander({
-            "timestamp": "1784387489350",
-            "key": "rfwny79iam3",
+            "timestamp": "1784388148496",
+            "key": "r3c6jbetegs",
             "mapWidth": "640",
             "mapHeight": "360"
           }).render();
         </script>
       </div>
       <div class="map-btns">
-        <a class="map-btn kakao" href="https://kko.to/lX7-xQgHdL" target="_blank">📍 카카오맵</a>
-        <a class="map-btn naver" href="https://naver.me/xxY2U7vu" target="_blank">📍 네이버지도</a>
+        <a class="map-btn kakao" href="https://kko.to/KfaAbEgqtC" target="_blank">📍 카카오맵</a>
+        <a class="map-btn naver" href="https://naver.me/5UEFHTK6" target="_blank">📍 네이버지도</a>
       </div>
 
       <div class="transport-section">
@@ -2017,24 +2017,6 @@
       '사랑으로 물들었습니다'
     ];
 
-    /* 터치 시 소리 없이 오디오 컨텍스트만 활성화 */
-    function unlockAudio() {
-      if (!audioUnlocked) {
-        bgm.muted = true;
-        bgm.play().then(() => {
-          bgm.pause();
-          bgm.muted = false;
-          bgm.currentTime = 0;
-          audioUnlocked = true;
-        }).catch(() => { });
-      }
-    }
-
-    const introEl = document.getElementById('introOverlay');
-    introEl.addEventListener('touchstart', unlockAudio, { passive: true, once: true });
-    introEl.addEventListener('click', unlockAudio, { once: true });
-    introEl.addEventListener('mousemove', unlockAudio, { once: true });
-
     function closeIntro() {
       document.removeEventListener('touchmove', preventScroll);
 
@@ -2043,12 +2025,12 @@
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
 
-      bgm.muted = false;
       bgm.currentTime = 0;
       bgm.play().then(() => {
         playing = true;
         btn.textContent = '🎵';
       }).catch(() => {
+        /* 자동재생 실패 — 버튼 강조 + 스크롤 시 재생 대기 */
         btn.style.animation = 'musicPulse 1.2s ease-in-out infinite';
         btn.style.borderColor = 'rgba(210,115,100,0.6)';
         btn.style.background = 'rgba(255,255,255,0.8)';

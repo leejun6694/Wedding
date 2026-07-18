@@ -2067,24 +2067,6 @@
       '사랑으로 물들었습니다'
     ];
 
-    /* 터치 시 소리 없이 오디오 컨텍스트만 활성화 */
-    function unlockAudio() {
-      if (!audioUnlocked) {
-        bgm.muted = true;
-        bgm.play().then(() => {
-          bgm.pause();
-          bgm.muted = false;
-          bgm.currentTime = 0;
-          audioUnlocked = true;
-        }).catch(() => { });
-      }
-    }
-
-    const introEl = document.getElementById('introOverlay');
-    introEl.addEventListener('touchstart', unlockAudio, { passive: true, once: true });
-    introEl.addEventListener('click', unlockAudio, { once: true });
-    introEl.addEventListener('mousemove', unlockAudio, { once: true });
-
     function closeIntro() {
       document.removeEventListener('touchmove', preventScroll);
 
@@ -2093,12 +2075,12 @@
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
 
-      bgm.muted = false;
       bgm.currentTime = 0;
       bgm.play().then(() => {
         playing = true;
         btn.textContent = '🎵';
       }).catch(() => {
+        /* 자동재생 실패 — 버튼 강조 + 스크롤 시 재생 대기 */
         btn.style.animation = 'musicPulse 1.2s ease-in-out infinite';
         btn.style.borderColor = 'rgba(210,115,100,0.6)';
         btn.style.background = 'rgba(255,255,255,0.8)';
