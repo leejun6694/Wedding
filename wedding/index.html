@@ -1261,6 +1261,8 @@
       line-height: 2.2;
       letter-spacing: 0.5px;
       margin-bottom: 20px;
+      min-height: calc(13px * 2.2 * 2);
+      /* 2줄 높이 고정 */
     }
 
     .intro-date {
@@ -1856,6 +1858,7 @@
       currentPhotoIdx = idx;
       document.getElementById('lightbox').classList.add('open');
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
       buildLightboxSlides();
       jumpToSlide(false);
     }
@@ -2028,7 +2031,8 @@
     function closeIntro() {
       const overlay = document.getElementById('introOverlay');
       overlay.classList.add('hidden');
-      document.body.style.overflow = '';
+      ddocument.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
 
       bgm.muted = false;
       bgm.currentTime = 0;

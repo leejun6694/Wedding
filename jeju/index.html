@@ -1314,6 +1314,8 @@
       line-height: 2.2;
       letter-spacing: 0.5px;
       margin-bottom: 20px;
+      min-height: calc(13px * 2.2 * 2);
+      /* 2줄 높이 고정 */
     }
 
     .intro-date {
@@ -2051,6 +2053,7 @@
 
     /* 인트로 오버레이 */
     document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
 
     const introLines = [
       '소소한 하루를 함께 나누며',
@@ -2079,6 +2082,7 @@
       const overlay = document.getElementById('introOverlay');
       overlay.classList.add('hidden');
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
 
       bgm.muted = false;
       bgm.currentTime = 0;
