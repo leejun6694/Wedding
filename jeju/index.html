@@ -1915,6 +1915,7 @@
     function closeLightbox() {
       document.getElementById('lightbox').classList.remove('open');
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     }
     function buildLightboxSlides() {
       const track = document.getElementById('lbTrack');
